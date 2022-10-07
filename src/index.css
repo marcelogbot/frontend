@@ -1,6 +1,55 @@
+:root {
+  --background:#eee;
+  --background-header:#dde;
+  --background-input:#e1e1e1;
+  --background-hover:#92bb7f;
+  --background-button:#a9d893;
+  --text-primary:#222222;
+  --text-secondary:#122334;
+  --accent: #122334;
+  --border: #333333;
+  --form-bg:#eee;
+  --font-family: 'Quicksand';
+}
+
+[data-theme='dark'] {
+  --background:#111111;
+  --background-header:#220;
+  --background-input:#222222;
+  --background-hover:#0a6f0d;
+  --background-button:#0d8d12 ;
+  --text-primary:#eeeeee;
+  --text-secondary:#bbccdd;
+  --accent: #bbccdd;
+  --border: #cccccc;
+  --form-bg:#191919;
+  --font-family: 'Quicksand';
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+a {
+  color: var(--text-secondary);
+}
+
+.app {
+  background-color: var(--background);
+  color: var(--text-primary);
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-size: .8rem;
+  transition: all .5s;
+}
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  font-family: -apple-system, BlinkMacSystemFont, 'Quicksand', 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;

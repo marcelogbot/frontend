@@ -1,0 +1,122 @@
+.addUser { 
+    display: flex;
+    flex-direction: column;
+    justify-content: top;
+    align-items: center;
+    height: 100vh;
+    width: 100%;
+    background-color: #222222;
+    color: #eeeeee;
+}
+
+.addUser_button {
+    width: 100%;
+    margin-bottom: 10px;  
+    display: flex;
+    align-self: center; 
+    justify-content: flex-start;
+}
+
+.addUser_button button {
+    margin-left: 50px;
+    padding: 10px;
+    border-width: 1px;
+    border-radius: 5px;
+    background-color: #872d2d;
+    color: #dddddd; 
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.addUser_button button:hover {
+    background-color: #b75151;
+}
+
+.addUser_form {
+    display: flex;
+    flex-direction: column;
+    background-color: #444444;
+    color: #eeeeee;
+    align-items: center;
+    justify-content: center;
+    width: 80%;
+    max-width: 400px;
+    border-radius: 10px;
+    border-color: #dddddd;
+    border-style: solid;
+    border-width: 1.5px;
+    padding: 10px;
+}
+
+.addUser_form form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+}
+
+.addUser_form input {
+    height: 30px;
+    align-self: center;
+    background: #343434;
+    color: #dddddd;
+    border: 0;
+    border-radius: 2px;
+    border-bottom: 0.5px solid #dddddd;
+    margin-bottom: 10px;
+    width: 98%;
+    font-size: 1.1em;
+    letter-spacing: 0.03em;
+    padding-left: 8px;
+}
+
+.addUser_form input:focus {
+    background-color: #eeeeee;
+    color: #222222;
+}
+
+.addUser_form span {
+    align-self: left;
+    font-weight: bold;
+    margin-bottom: 3px;
+}
+
+.addUser_form button {
+    cursor: pointer;
+}
+
+.addUser_form_gravar {
+    margin: 10px;
+    height: 30px;
+    border: none;
+    border-radius: 3px;
+    margin-bottom: 10px;
+    width: 100%;
+    font-size: 1.2em;
+    font-weight: bold;
+    background-color: #8cce41;
+    color: #1d2b0d;
+    cursor: pointer;
+}
+
+.addUser_form_gravar:hover {
+    background-color: #6ea233;
+}
+
+.addUser_form_limpar {
+    margin: 10px;
+    height: 30px;
+    border: none;
+    border-radius: 3px;
+    margin-bottom: 10px;
+    width: 100%;
+    font-size: 1.2em;
+    font-weight: bold;
+    background-color: #ded407;
+    color: #1d2b0d;
+    cursor: pointer;
+}
+
+.addUser_form_limpar:hover {
+    background-color: #a8a003;
+}
