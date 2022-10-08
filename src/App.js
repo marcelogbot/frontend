@@ -8,7 +8,7 @@ import './App.css';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import RegisterConfirm from './pages/RegisterConfirm';
-import LogedPage from './pages/LogedPage';
+import UserManage from './pages/UserManage';
 import AddUser from './pages/AddUser';
 import UpdateRole from './pages/UpdateRole';
 
@@ -30,7 +30,7 @@ function App() {
               <Route path='/login' element={<Login />} />
               <Route path='/register' element={<Register />} />
               <Route path='/registerConfirm' element={<RegisterConfirm />} />
-              <Route path='/logedPage' element={<Private Item={LogedPage}/>} />
+              <Route path='/userManage' element={<Private Item={UserManage}/>} />
               <Route path='/addUser' element={<Private Item={AddUser}/>} />
               <Route path='/updateRole' element={<Private Item={UpdateRole}/>} />
               {/* <Route path='/addUser' element={<AddUser/>} /> */}

@@ -1,0 +1,104 @@
+.userManage { 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: top;
+    padding-top: 20px;
+    height: 93.2vh;
+    width: 100%;
+    background-color: var(--background);
+    color: var(--text-primary);
+}
+
+.userManage_button {
+    display: flex;
+    flex-direction: row;
+    width: 90%;
+}
+
+.userManage_button button {
+    margin: 5px;
+    font-family: var(--font-family);
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 5px;
+    padding: 10px;
+    align-items: center;
+    background-color: var(--background-button);
+    width: 95%;
+    border: none;
+    color: var(--text-primary);
+
+}
+
+.userManage_button button:hover {
+    background-color: var(--background-hover);
+}
+
+.userManage_listUsers {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 95%;
+}
+
+.userManage_listUsers table {
+    border-collapse: collapse;
+    text-align: center;
+    width: 90%;
+}
+
+.userManage_listUsers tr {
+    border-bottom: 0.1px solid var(--background-input);
+    height: 35px;
+}
+
+.userManage_listUsers tr:nth-child(even) {
+    background-color: var(--background-input);
+}
+
+.userManage_listUsers th {
+    background-color: #123456;
+    color: #eeeeee;
+    padding: 5px;
+}
+
+.pagination {
+    display: flex;
+    justify-content: space-between;
+    list-style: none;
+    margin-top: 20px;
+    padding: 0;
+   }
+   
+.pagination a {
+    cursor: default;
+    padding: 3px;
+    padding-left: 8px;
+    padding-right: 8px;
+    border-radius: 5px;
+    border: 1px solid var(--border);
+    color: var(--text-primary);
+    margin-left: 10px;
+   }
+   
+.pagination li:not(.disabled) a:hover {
+    background-color: var(--background-input);
+    cursor: pointer;
+   }
+   
+.pagination li a {
+    font-weight: bold;
+   }
+   
+.pagination li.active a {
+    color: var(--text-primary);
+    background: var(--background-button);
+   }
+   
+.pagination li.disabled a {
+    pointer-events: none;
+    color: rgb(198, 197, 202);
+    border: 1px solid rgb(198, 197, 202);
+   }

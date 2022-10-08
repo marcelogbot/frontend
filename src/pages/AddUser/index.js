@@ -5,6 +5,7 @@ import useAuth from '../../service/userAuth';
 import Loading from '../../assets/Loading';
 import './addUser.css';
 import Header from './../../component/Header'
+import Modal from '../../component/Modal';
 
 const AddUser = () => {
 
@@ -16,6 +17,8 @@ const AddUser = () => {
     const [newUser,setNewUser] = useState({firstname:"",lastname:"", username: "", email:"", password:""});
     const [updatePassword, setUpdatePassword] = useState(false);
     const [showLoading, setShowLoading] = useState(false);
+    const [showResult, setShowResult] = useState(false);
+    const [msgModal, setMsgModal] = useState('');
 
     const handleForm = (event) => {
       if (msgResult !== "") {
@@ -25,8 +28,8 @@ const AddUser = () => {
     };
 
     const alterarSenha = () => {
-      setNewUser({...newUser, password:""})
-      setUpdatePassword(!updatePassword)
+        setNewUser({...newUser, password:""});
+        setUpdatePassword(!updatePassword);
     }
 
     const saveSubmit = async (event) => {
@@ -74,9 +77,8 @@ const AddUser = () => {
             } else {
               console.log("Usuário Alterado!")
               setMsgResult("Usuário Alterado!")
-
             }
-            
+            setShowLoading(false);            
           } else {
             if (result?.data?.username === "") {
               console.log("Email: ("+ result?.data?.email + ") já existe.")
@@ -84,9 +86,16 @@ const AddUser = () => {
             } else if (result?.data?.email === "") {
               console.log("Usuário: ("+ result?.data?.username + ") já existe.")
               setMsgResult("Usuário: ("+ result?.data?.username + ") já existe.")
+            } else if (result?.response?.status === 403) {
+              setMsgModal('Usuário sem permissão!')
+              setShowResult(true);
+              setTimeout(() => {
+                setShowResult(false);
+                setMsgModal('')
+              },1000)
             };
+            setShowLoading(false);
           };
-          setShowLoading(false);
         };
     };
     
@@ -108,23 +117,14 @@ const AddUser = () => {
   return (
     <>
       <Header />
+      {showResult && <Modal message={msgModal} />}
       <div className='addUser' data-theme={theme}>
         <h1>{state!= null?"Alterar Cadastro de "+state.username:"Cadastro de Novo Usuário"}</h1>
         <div className='addUser_button'>
           <button onClick={() => navigate('/logedPage')}>Voltar</button>
         </div>
         <div className='addUser_form'>
-        {showLoading &&
-                      <>
-                          <div style={{position:"absolute",
-                                      height:"100%",
-                                      width:"100%",
-                                      backgroundColor:"#444444",
-                                      opacity:0.7,
-                                      zIndex:0 }}/>
-                          <Loading />
-                      </>   
-                  }
+        {showLoading && <Loading style={{position:'absolute'}} /> }
           <h3>Preencha o formulário de cadastro</h3><br/>
           <h5 style={{color:theme==='dark'?'#FED8B1':'#FF8C00'}}>{msgResult}</h5>
           <form onSubmit={saveSubmit}>
@@ -138,7 +138,8 @@ const AddUser = () => {
             <input type='text' name='username' disabled={state != null?true:false} value={newUser.username} onChange={handleForm} placeholder='Digite seu nome de usuário.' />
             <span>Senha: </span>
             {state != null ?
-              <button type='button' onClick={alterarSenha}>Alterar senha</button> : <input type='password' name='password' value={newUser.password} onChange={handleForm} placeholder='Digite sua senha para acessar o sistema.' />
+              <button style={{backgroundColor:'var(--background-button)', border:'none', borderRadius:5, height:24, fontSize:14, color:'var(--text-primary)'}}
+                  type='button' onClick={alterarSenha}>Alterar senha</button> : <input type='password' name='password' value={newUser.password} onChange={handleForm} placeholder='Digite sua senha para acessar o sistema.' />
             }
             {updatePassword ? <input type='password' name='password' value={newUser.password} onChange={handleForm} placeholder='Digite sua nova senha.' /> : ""}
             <div style={{display:'flex', alignItems:'flex-start'}}>

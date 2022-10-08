@@ -48,6 +48,8 @@
 .updateRole_box_select select {
     width: 300px;
     height: 25px;
+    background-color: var(--background-input);
+    color: var(--text-primary);
 }
 
 .updateRole_box_table {

@@ -88,7 +88,7 @@ function UpdateRole() {
       <div className='updateRole' data-theme={theme}>
         <h1>Gerenciamento de Perfil de Acesso</h1>
         <div className='updateRole_btn'>
-          <button onClick={() => navigate('/logedPage')}>Voltar</button>
+          <button onClick={() => navigate('/userManage')}>Voltar</button>
         </div>
         <div className='updateRole_box'>
           <div style={{display:'flex', flexDirection:'column', justifyContent:'center', alignItems:'center'}}>

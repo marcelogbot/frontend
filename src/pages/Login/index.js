@@ -60,7 +60,7 @@ const Login = () => {
                 let user = getUser.data;
                
                 setCredentials(access_token, refresh_token, user);
-                navigate("/logedPage");
+                navigate("/userManage");
 
            } else if (result?.response?.status === 403) {
                 setLoginResult("Usuário ou senha incorreto.");
@@ -75,7 +75,7 @@ const Login = () => {
     useEffect(() => {
 
         if (validToken) {
-            navigate('/logedPage')
+            navigate('/userManage')
         };
 
         const listener = event => {

@@ -27,7 +27,6 @@ function Header() {
         </div>
         <div className='header-right'>
             <a href='/logedPage'>Home</a>&nbsp;|&nbsp;
-            <a href='/addUser'>Add</a>&nbsp;|&nbsp;
             <a href='/' onClick={() => logout()}> Sair </a>&nbsp;|&nbsp;
             { (theme==='dark' && 
                         <MdOutlineWbSunny onClick={mudaTema} size={22} style={{margin:10}} />) ||

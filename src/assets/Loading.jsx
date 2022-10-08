@@ -17,12 +17,21 @@ export default class Loading extends React.Component {
         animationData: animationData,
       };
    
-      return <div style={{position:"absolute"}}>
-        <Lottie options={defaultOptions}
+      return (
+        <>
+          <div style={{display:'flex', position:"absolute",
+                                      height:"93.2vh",
+                                      width:"100%",
+                                      backgroundColor:"#444444",
+                                      opacity:0.7,
+                                      zIndex:0 }}/>
+          <div style={{display:'flex', position:"absolute", width:"100%", justifyContent:'center', alignItems:'center'}}>
+            <Lottie options={defaultOptions}
                 height={200}
                 width={200}
                 isStopped={this.props.isStopped}
                 isPaused={this.props.isPaused}/>
-      </div>
-    }
+          </div>
+        </>
+      )}
   }
