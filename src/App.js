@@ -12,11 +12,10 @@ import LogedPage from './pages/LogedPage';
 import AddUser from './pages/AddUser';
 import UpdateRole from './pages/UpdateRole';
 
-
 const Private = ({ Item }) => {
   const { validToken } = useAuth();
   return validToken > 0 ? <Item /> : <Login />;
-}
+};
 
 function App() {
 

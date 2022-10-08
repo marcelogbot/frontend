@@ -101,12 +101,12 @@ const LogedPage = () => {
         </div>
         <table style={{width:'80%', borderCollapse:'collapse'}}>
           <thead>
-          <tr style={{textAlign:'center', backgroundColor:'#123456', color:'#eeeeee'}}>
-            <th style={{width:'15%' , padding:10}}>Ações</th>
-            <th style={{padding:10}}>Nome</th>
-            <th style={{padding:10}}>Usuário</th>
-            <th style={{padding:10}}>Email</th>
-            <th style={{width:'18%', padding:10}}>Perfis</th>
+          <tr>
+            <th>Ações</th>
+            <th>Nome</th>
+            <th>Usuário</th>
+            <th>Email</th>
+            <th>Perfis</th>
           </tr>
           </thead>
           <tbody>
@@ -114,9 +114,8 @@ const LogedPage = () => {
             users.map((userItem, idx) => {
               if(userItem?.username !== user?.username) {
               return (
-                <tr key={idx} style={{borderBottomColor:'#333333', borderBottomStyle:'groove', borderWidth:0.1,
-                                       backgroundColor:(idx+1 )%2===0?'#eee':'#fff'}}>
-                  <td style={{ textAlign:'center', padding:5 }}>
+                <tr key={idx}>
+                  <td>
                     
                     <MdOutlineModeEditOutline title="Edit user" size={22} onClick={() => navigate('/addUser',{state: userItem})} />
                     &nbsp;
@@ -127,16 +126,16 @@ const LogedPage = () => {
                      &nbsp;
                      <MdDeleteOutline title="Delete user" size={22} color={'red'} onClick={() => removeUser(userItem)} />
                   </td>
-                  <td style={{textAlign:'left', padding:5}}>
+                  <td>
                     <b>{userItem.firstname}</b>
                   </td>
-                  <td style={{textAlign:'left', padding:5}}>
+                  <td>
                     {userItem.username}
                   </td>
-                  <td style={{textAlign:'left', padding:5}}>
+                  <td>
                     {userItem.email}
                   </td> 
-                  <td style={{textAlign:'center', padding:5}}>
+                  <td>
                     {userItem.roles.map((role) => "*"+role.name+" ")}
                   </td>
                 </tr>

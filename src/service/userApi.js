@@ -9,7 +9,7 @@ export const useUserApi = () => ({
 
     addUser: async (newUser, token) => {
 
-        const config = { headers: { 'Authorization': `Bearer ${token}` } };
+        const config = { headers: { Authorization: `Bearer ${token}` } };
 
         var result = null;
         await api.post('/api/user/save', newUser, config)
@@ -45,7 +45,7 @@ export const useUserApi = () => ({
         
         var result = null;
 
-        const headers = {headers: { 'Authorization': `Bearer ${token}` }};        
+        const headers = {headers: { Authorization: `Bearer ${token}` }};        
         await api.get('/api/user/'+username, headers)
         .then(function (response) {
             result = response;
@@ -61,7 +61,7 @@ export const useUserApi = () => ({
         
         var result = null;
 
-        const headers = {headers: { "Authorization": `Bearer ${token}` }};        
+        const headers = {headers: { Authorization: `Bearer ${token}` }};        
         await api.get('/api/users',headers)
         .then(function (response) {
             result = response;
@@ -102,6 +102,55 @@ export const useUserApi = () => ({
             result = error
         });
         return result;
+    },
+
+    listRoles: async (token) => {
+        
+        var result = null;
+        const headers = {headers: { Authorization: `Bearer ${token}` }};        
+        await api.get('/api/roles',headers)
+        .then(function (response) {
+            result = response;
+        })
+        .catch(function (error) {
+            result = error;
+        })
+
+        return result;
+    },
+
+    addRoleToUser: async (username, roleName, token) => {
+
+        const config = { headers: { Authorization: `Bearer ${token}` } };
+
+        var result = null;
+        await api.post('/api/role/addtouser',{username: username, roleName: roleName}, config)
+        .then(function (response) {
+            result = response;
+        })
+        .catch(function (error) {
+            result = error;
+        });
+
+        return result;
+
+    },
+
+    removeRoleToUser: async (username, roleName, token) => {
+
+        const config = { headers: { Authorization: `Bearer ${token}` } };
+
+        var result = null;
+        await api.post('/api/role/removetouser',{username: username, roleName: roleName}, config)
+        .then(function (response) {
+            result = response;
+        })
+        .catch(function (error) {
+            result = error;
+        });
+
+        return result;
+        
     }
 
 })

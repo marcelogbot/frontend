@@ -2,15 +2,16 @@
     display: flex;
     flex-direction: column;
     justify-content: top;
+    padding-top: 20px;
     align-items: center;
     height: 100vh;
     width: 100%;
-    background-color: #222222;
-    color: #eeeeee;
+    background-color: var(--background);
+    color: var(--text-primary);
 }
 
 .addUser_button {
-    width: 100%;
+    width: 80%;
     margin-bottom: 10px;  
     display: flex;
     align-self: center; 
@@ -18,7 +19,6 @@
 }
 
 .addUser_button button {
-    margin-left: 50px;
     padding: 10px;
     border-width: 1px;
     border-radius: 5px;
@@ -35,17 +35,14 @@
 .addUser_form {
     display: flex;
     flex-direction: column;
-    background-color: #444444;
-    color: #eeeeee;
-    align-items: center;
     justify-content: center;
-    width: 80%;
-    max-width: 400px;
+    align-items: center;
+    background-color: var(--form-bg);
     border-radius: 10px;
-    border-color: #dddddd;
-    border-style: solid;
-    border-width: 1.5px;
-    padding: 10px;
+    padding: 20px;
+    width: 400px;
+    height: 500px;
+    box-shadow: 0px 0px 5px 0px var(--border);
 }
 
 .addUser_form form {
@@ -56,23 +53,21 @@
 }
 
 .addUser_form input {
-    height: 30px;
+    height: 35px;
     align-self: center;
-    background: #343434;
-    color: #dddddd;
+    background: var(--background-input);
+    color: var(--text-primary);
     border: 0;
-    border-radius: 2px;
-    border-bottom: 0.5px solid #dddddd;
-    margin-bottom: 10px;
     width: 98%;
+    margin-bottom: 15px;
     font-size: 1.1em;
     letter-spacing: 0.03em;
     padding-left: 8px;
 }
 
 .addUser_form input:focus {
-    background-color: #eeeeee;
-    color: #222222;
+    background-color: var(--text-primary);
+    color: var(--background-input);
 }
 
 .addUser_form span {

@@ -1,4 +1,4 @@
-    import { createContext, useEffect, useState, useRef } from "react";
+    import { createContext, useLayoutEffect, useState, useRef } from "react";
     import { useApi } from "../service/api";
 
     export const AuthContext = createContext({});
@@ -10,7 +10,7 @@
         const api = useApi();
         const tempTokenValidate = useRef();
 
-        useEffect(() => { 
+        useLayoutEffect(() => { 
             tempTokenValidate.current();
 
         },[]);
