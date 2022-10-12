@@ -7,9 +7,9 @@ function Modal(props) {
   return (
     <>
         <div className='modal' data-theme={theme} />
-        <div style={{display:'flex', position:'absolute', height:'93vh', width:'100%', justifyContent:'center', alignItems:'center'}}>
+        <div style={{display:'flex', position:'absolute', height:'80vh', width:'97.7vw', justifyContent:'center', alignItems:'center'}}>
             <div className='modal_box' data-theme={theme} >
-                <p>{props.message}</p>
+                {props.children}
             </div>
         </div>
     </>

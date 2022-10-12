@@ -1,0 +1,90 @@
+.home {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: top;
+    padding-top: 3px;
+    height: 93.2vh;
+    width: 100%;
+    background-color: var(--background);
+    color: var(--text-primary);
+}
+
+.nav_tabs {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 98vw;
+}
+
+.nav_tabs ul {
+    padding: 0px 20px;
+    transition: all 0.3s ease 0s;
+}   
+
+.tab {
+    display: inline-flex;
+    align-items: center;
+    padding: 0px 10px;
+    line-height:30px;
+    height: 30px;
+    width: 8vw;
+    margin: 0px 1px;
+    border-radius: 5px 5px 0px 0px;
+    background-color: var(--background-input);
+    color: var(--text-primary);
+}
+
+.tab_active {
+    display: inline-flex;
+    align-items: center;
+    padding: 0px 10px;
+    line-height:40px;
+    height: 30px;
+    width: 10vw;
+    margin: 0px 1px;
+    border-radius: 5px 5px 0px 0px;
+    background-color: var(--background-button);
+    color: var(--text-primary);
+}
+
+.nav_tabs li[name='tab_list']:hover {
+    background-color: var(--background-button);
+    color: var(--text-primary);
+    font-weight: bold;
+}
+
+.nav_tabs div[name='tab_name'] {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.nav_tabs div[name='tab_close'] {
+    display: flex;
+    height: 100%;
+    align-items: center;
+    padding: 0px 0px 0px 6px;
+    box-shadow: -2px 2px 4px -4px var(--border);
+}
+
+MdOutlineClose {
+    margin: 0px 4px;
+    background-color: transparent;
+    border: none;
+    color: var(--text-primary);
+    cursor: pointer;
+}
+
+
+.nav_tabs button[name='tab_select'] {
+    margin: 0px 4px;
+    background-color: transparent;
+    border: none;
+    color: var(--text-primary);
+    cursor: pointer;
+}
+
+.nav_tabs button:hover {
+    font-weight: bold;
+}

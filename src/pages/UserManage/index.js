@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { useUserApi } from '../../service/userApi';
-import { useNavigate } from 'react-router-dom';
 import useAuth from '../../service/userAuth';
 import ReactPaginate from 'react-paginate';
 import { MdRefresh, MdPersonAddAlt1, MdOutlinePersonOff,
@@ -8,25 +7,25 @@ import { MdRefresh, MdPersonAddAlt1, MdOutlinePersonOff,
         MdOutlineModeEditOutline, MdManageAccounts } from "react-icons/md";
 import Loading from '../../assets/Loading';
 import Modal from '../../component/Modal';
-import Header from '../../component/Header';
 import './userManage.css'
 
-const UserManage = () => {
+const UserManage = (props) => {
+
   const api = useUserApi();
   const { getCredentials, user, tokenValidate, theme } = useAuth();
-  const navigate = useNavigate();
   const loadListUsers = useRef();
   const [users, setUsers] = useState([]);
+  const [userRemove, setUserRemove] = useState('')
   const [showLoading, setShowLoading] = useState(false);
   const [showMsgResult, setShowMsgResult] = useState(false);
   const [msgModal, setMsgModal] = useState('');
 
-  const [paginateList, setPaginateList] = useState({list:[], perPage:10, page:0, pages:0})
+  const [paginateList, setPaginateList] = useState({list:[], perPage:10, page:0, pages:1})
 
   const listUsers = async () => {
     setShowLoading(true);
     let userList = await api.listUsers(getCredentials().access_token);
-    userList = userList.data.filter(userItem => userItem.username !== user.username);
+    userList = userList.data.filter(userItem => userItem.username !== user?.username);
     userList = userList.sort((a,b) => {
                                         let fa = a?.username?.toLowerCase(),
                                             fb = b?.username?.toLowerCase();
@@ -54,41 +53,65 @@ const UserManage = () => {
                                   );
     setUsers(userList);
 
-    let pages = 0
-    if(paginateList.perPage <= users.length) {
+    let pages = 1
+    if(paginateList.perPage < users.length) {
       pages = Math.ceil(users.length/paginateList.perPage);
     };
     let usersPage = userList.slice(0,paginateList.perPage)
     setPaginateList({...paginateList, pages: pages, list: usersPage})
     await tokenValidate();
-    setTimeout(() => {
-      setShowLoading(false);
-    }, 1000);
-  }
-
-  const saveNewUser = async () => {
-    await tokenValidate();
-    navigate('/addUser')
+    setShowLoading(false);
   }
 
   loadListUsers.current = () => listUsers();
 
-  const removeUser = async (user) => {
-    let log = await api.deleteUser(user.username, getCredentials().access_token);
-    if (log?.status === 200) {
-      loadListUsers.current();
+  const confirmRemoveUser = (userItem) => {
+    if(user.roles.some(role => role.name === 'ROLE_ADMIN')) {
+      setUserRemove(userItem);
+      setShowMsgResult(true);
+      setMsgModal('Tem certeza que deseja remover o usuário '+userItem.username+' !')
+
     } else {
-      console.log('erro: '+ log)
-      if (log?.response?.status === 403){
-        setMsgModal('Usuário sem permissão!')
-        setShowMsgResult(true);
-        setTimeout(() => {
-          setShowMsgResult(false);
-          setMsgModal('')
-        },1000)
-      }
+      setMsgModal('Usuário sem permissão!')
+      setShowMsgResult(true);
+      setTimeout(() => {
+        setShowMsgResult(false);
+        setMsgModal('')
+      },1000);
     };
-    await tokenValidate();
+  };
+
+  const removeUser = async (userItem) => {
+    setUserRemove('');
+    setShowMsgResult(false);
+    if(user.roles.some(role => role.name === 'ROLE_ADMIN')) {
+      let log = await api.deleteUser(userItem.username, getCredentials().access_token);
+      
+      if (log?.status === 200) {
+        loadListUsers.current();
+
+      } else {
+
+        console.log('erro: '+ log);
+        if (log?.response?.status === 403){
+          setMsgModal('Usuário sem permissão!')
+          setShowMsgResult(true);
+          setTimeout(() => {
+            setShowMsgResult(false);
+            setMsgModal('')
+          },1000)
+        }
+      };
+      await tokenValidate();
+
+    } else {
+      setMsgModal('Usuário sem permissão!')
+      setShowMsgResult(true);
+      setTimeout(() => {
+        setShowMsgResult(false);
+        setMsgModal('')
+      },1000);
+    };
   }
 
   const enableUser = async (user) => {
@@ -129,7 +152,7 @@ const UserManage = () => {
 
   const setItensPerPage = (select) => {
     let itensPerPage = select.target[select.target.selectedIndex].value;
-    let pages = 0
+    let pages = 1
     if(itensPerPage <= users.length) {
       pages = Math.ceil(users.length/itensPerPage);
     };
@@ -151,7 +174,7 @@ const UserManage = () => {
 
   const editPerfilUser = (userItem) => {
     if(user.roles.some(role => role.name === 'ROLE_ADMIN')) {
-      navigate('/updateRole',{state: userItem})
+      props.onClickEditRole(userItem);
     } else {
       setMsgModal('Usuário sem permissão!')
       setShowMsgResult(true);
@@ -164,7 +187,7 @@ const UserManage = () => {
 
   const editUser = (userItem) => {
     if(user.roles.some(role => role.name === 'ROLE_ADMIN')) {
-      navigate('/addUser',{state: userItem})
+      props.onClickEditUSer(userItem);
     } else {
       setMsgModal('Usuário sem permissão!')
       setShowMsgResult(true);
@@ -176,22 +199,39 @@ const UserManage = () => {
   };
 
   useEffect (() => {
-
-    setShowLoading(true);
     loadListUsers.current();
-    setShowLoading(false);
     
   },[]);
 
   return (
     <>
-    <Header />
-    {showMsgResult && <Modal message={msgModal} />}
+    {/* <Header /> */}
+    {showMsgResult && <Modal>
+                        <div className='modalMsg'>
+                          <p>{msgModal}</p>
+                            {userRemove !== '' &&
+                            <div style={{display:'flex', flexDirection:'row', width:'70%',  justifyContent:'space-around', marginTop:20}}>
+                              <button name='cancelar' onClick={() => {setUserRemove(''); setShowMsgResult(false)}}>Cancelar</button> 
+                              <button name='confirmar' onClick={() => removeUser(userRemove)}>Confirmar</button>
+                            </div>
+                            }
+                        </div>
+                      </Modal>
+      }
     {showLoading && <Loading /> }
     <div className='userManage' data-theme={theme}>
       <div className='userManage_listUsers'>
         <h2>Gerenciamento de Usuários</h2>
         <div style={{display:'flex', flexDirection:'row', width:'80%', justifyContent:'right'}}>
+        
+          <ReactPaginate
+            previousLabel={'<<'}
+            nextLabel={'>>'}
+            pageCount={paginateList.pages}
+            onPageChange={handlePageClick}
+            containerClassName={'pagination'}
+            activeClassName={'active'}
+        />
           <select name='SelectItensPerPage' defaultValue={10} onChange={setItensPerPage}>
             <option value={2}>2</option>
             <option value={5}>5</option>
@@ -200,8 +240,8 @@ const UserManage = () => {
             <option value={50}>50</option>
             <option value={100}>100</option>
           </select>
-          <button onClick={listUsers}><MdRefresh size={20}/></button>
-          <button onClick={saveNewUser}><MdPersonAddAlt1 size={20}/></button>
+          <button name='refresh' onClick={listUsers}><MdRefresh size={20}/></button>
+          <button name='addUser' onClick={() => {props.addUserClick()}}><MdPersonAddAlt1 size={20}/></button>
         </div>
         <div style={{display:'flex', justifyContent:'center', width:'100%'}}>
           <table style={{width:'80%', borderCollapse:'collapse'}}>
@@ -221,14 +261,14 @@ const UserManage = () => {
                 return (
                   <tr key={idx}>
                     <td>
-                      <MdOutlineModeEditOutline title="Edit user" size={22} onClick={() => editUser(userItem)} />
+                      <MdOutlineModeEditOutline name='icon' title="Edit user" size={22} onClick={() => {editUser(userItem);}} />
                       &nbsp;
-                      <MdManageAccounts title="Edit user" size={22} onClick={() => editPerfilUser(userItem)} />
+                      <MdManageAccounts name='icon' title="Edit roleUser" size={22} onClick={() => {editPerfilUser(userItem);}} />
                       &nbsp;
-                      {userItem.enabled?<MdOutlinePersonOutline title="User enable" size={22} onClick={() => enableUser(userItem)} style={{marginLeft:5}} />:
-                                        <MdOutlinePersonOff title="User disable" color={'#F9AE35'} size={22} onClick={() => enableUser(userItem)} style={{marginLeft:5}} />}
+                      {userItem.enabled?<MdOutlinePersonOutline name='icon' title="User enable" size={22} onClick={() => enableUser(userItem)} style={{marginLeft:5}} />:
+                                        <MdOutlinePersonOff name='icon' title="User disable" color={'#F9AE35'} size={22} onClick={() => enableUser(userItem)} style={{marginLeft:5}} />}
                       &nbsp;
-                      <MdDeleteOutline title="Delete user" size={22} color={'red'} onClick={() => removeUser(userItem)} />
+                      <MdDeleteOutline name='icon' title="Delete user" size={22} color={'red'} onClick={() => confirmRemoveUser(userItem)} />
                     </td>
                     <td>
                       <b>{userItem.firstname}</b>
@@ -248,17 +288,6 @@ const UserManage = () => {
               </tbody>
           </table>
         </div>  
-      </div>
-      <div style={{display:'flex', flexDirection:'row'}}>
-        {paginateList.pages > 0 &&
-          <ReactPaginate
-            previousLabel={'<<'}
-            nextLabel={'>>'}
-            pageCount={paginateList.pages}
-            onPageChange={handlePageClick}
-            containerClassName={'pagination'}
-            activeClassName={'active'}
-        />}
       </div>
     </div>
     </>

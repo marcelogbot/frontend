@@ -1,18 +1,17 @@
-    import { createContext, useLayoutEffect, useState, useRef } from "react";
+    import { createContext, useEffect, useState, useRef } from "react";
     import { useApi } from "../service/api";
 
     export const AuthContext = createContext({});
 
     export const AuthProvider = ({ children }) => {
-        const [validToken, setValidToken] = useState(false);
+        const [validToken, setValidToken] = useState(true);
         const [user, setUser] = useState();
         const [theme, setTheme] = useState(localStorage.getItem('theme'));
-        const api = useApi();
         const tempTokenValidate = useRef();
+        const api = useApi();
 
-        useLayoutEffect(() => { 
+        useEffect(() => { 
             tempTokenValidate.current();
-
         },[]);
 
         const setCredentials = (access_token, refresh_token, userStore) => {
@@ -57,28 +56,26 @@
 
         const tokenValidate = async () => {
             const tokens = getCredentials();
+            let isLoged = false;
             console.log("Refreshing token!");
             if (tokens.access_token !== null && tokens.refresh_token !== null) {
                 var result = await api.validateToken(tokens.refresh_token);
                 if (result?.status === 200) {
-                    setValidToken(true);
+                    isLoged = true;
                     setCredentials(result.data.access_token, result.data.access_token);
                     if (user == null) {
                         var userTmp = getCredentials().user;
                         setUser(JSON.parse(userTmp));
-                    }
-
+                    };
                 } else { 
                     console.log("Token inválido!");
-                    setValidToken(false);
-
-                }
-                return;
+                    isLoged = false;
+                };
             } else {
                 console.log("Sem token!");
-                setValidToken(false);
-                return "Sem token de refresh";
-            }
+                isLoged = false;
+            };
+            setValidToken(isLoged);
         }
 
         const switchTheme = async () => {
@@ -87,7 +84,7 @@
             localStorage.setItem('theme', themeTmp);
         }
 
-        tempTokenValidate.current = tokenValidate;
+        tempTokenValidate.current = () => tokenValidate();
 
         return <AuthContext.Provider 
                     value={{user, validToken, theme, switchTheme, setCredentials, getCredentials, signout, tokenValidate }}

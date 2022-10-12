@@ -6,15 +6,11 @@ import useAuth from './service/userAuth';
 import './App.css';
 
 import Login from './pages/Login';
-import Register from './pages/Register';
-import RegisterConfirm from './pages/RegisterConfirm';
-import UserManage from './pages/UserManage';
-import AddUser from './pages/AddUser';
-import UpdateRole from './pages/UpdateRole';
+import Home from './pages/Home';
 
 const Private = ({ Item }) => {
-  const { validToken } = useAuth();
-  return validToken > 0 ? <Item /> : <Login />;
+   const { validToken } = useAuth();
+  return  validToken ? <Item /> : <Login />;
 };
 
 function App() {
@@ -28,12 +24,7 @@ function App() {
               <Route index element={<Login />} />
               <Route path='/' element={<Login />} />
               <Route path='/login' element={<Login />} />
-              <Route path='/register' element={<Register />} />
-              <Route path='/registerConfirm' element={<RegisterConfirm />} />
-              <Route path='/userManage' element={<Private Item={UserManage}/>} />
-              <Route path='/addUser' element={<Private Item={AddUser}/>} />
-              <Route path='/updateRole' element={<Private Item={UpdateRole}/>} />
-              {/* <Route path='/addUser' element={<AddUser/>} /> */}
+              <Route path='/home' element={<Private Item={Home}/>} />
             </Routes>
           </Fragment>
         </BrowserRouter>

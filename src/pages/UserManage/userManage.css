@@ -4,16 +4,45 @@
     align-items: center;
     justify-content: top;
     padding-top: 20px;
-    height: 93.2vh;
-    width: 100%;
+    height: 80vh;
+    width: 97.7vw;
     background-color: var(--background);
     color: var(--text-primary);
+}
+
+*[name='icon'] {
+    cursor: pointer;
 }
 
 .userManage_button {
     display: flex;
     flex-direction: row;
     width: 90%;
+}
+
+select[name='SelectItensPerPage'] {
+    background-color: var(--background-input);
+    color: var(--text-primary);
+    font-family: var(--font-family);
+    height: 80%;
+    margin: 2px 10px 0px 0px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+button[name='addUser'] {
+    background-color: transparent;
+    color: var(--text-primary);
+    margin: 0px 10px 0px 0px;
+    border: none;
+}
+
+button[name='refresh'] {
+    background-color: transparent;
+    color: var(--text-primary);
+    margin: 0px 10px 0px 0px;
+    border: none;
+
 }
 
 .userManage_button button {
@@ -68,9 +97,9 @@
     display: flex;
     justify-content: space-between;
     list-style: none;
-    margin-top: 20px;
+    margin: 10px 20px 10px 10px;
     padding: 0;
-   }
+}
    
 .pagination a {
     cursor: default;
@@ -81,24 +110,73 @@
     border: 1px solid var(--border);
     color: var(--text-primary);
     margin-left: 10px;
-   }
+}
    
 .pagination li:not(.disabled) a:hover {
     background-color: var(--background-input);
+    opacity: 0.6;
     cursor: pointer;
-   }
+}
    
 .pagination li a {
     font-weight: bold;
-   }
+    font-size: 12px;
+}
    
 .pagination li.active a {
     color: var(--text-primary);
     background: var(--background-button);
-   }
+}
    
 .pagination li.disabled a {
     pointer-events: none;
     color: rgb(198, 197, 202);
     border: 1px solid rgb(198, 197, 202);
-   }
+}
+
+.modalMsg {
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    width: 95%;
+}
+
+.modalMsg p {
+    font-size: 22px;
+    font-family: var(--font-family);
+    color: var(--text-primary);
+    text-align: center;
+}
+
+.modalMsg button[name='confirmar'] {
+    margin-top:10px;
+    height:30px;
+    width:80px;
+    border-radius:5px;
+    background-color:red;
+    color:#ddd;
+    border:none;
+    font-weight:bold;
+    cursor: pointer;
+}
+
+.modalMsg button[name= 'confirmar']:hover {
+    background-color:#A52A2A;
+}
+
+.modalMsg button[name='cancelar'] {
+    margin-top:10px;
+    height:30px;
+    width:80px;
+    border-radius:5px;
+    background-color:#1b5085;
+    color:#ddd;
+    border:none;
+    font-weight:bold;
+    cursor: pointer;
+}
+
+.modalMsg button[name= 'cancelar']:hover {
+    background-color:#123456;
+}

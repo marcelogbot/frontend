@@ -26,7 +26,8 @@ function Header() {
             <h3>Olá {user!=null? user?.firstname: ""}</h3>
         </div>
         <div className='header-right'>
-            <a href='/logedPage'>Home</a>&nbsp;|&nbsp;
+            <a href='/home'>Home</a>&nbsp;|&nbsp;
+            <a href='/userManage'>Usuários</a>&nbsp;|&nbsp;
             <a href='/' onClick={() => logout()}> Sair </a>&nbsp;|&nbsp;
             { (theme==='dark' && 
                         <MdOutlineWbSunny onClick={mudaTema} size={22} style={{margin:10}} />) ||

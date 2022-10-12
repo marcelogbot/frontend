@@ -1,16 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
 import { useUserApi } from '../../service/userApi';
 import useAuth from '../../service/userAuth';
 import Loading from '../../assets/Loading';
 import './addUser.css';
-import Header from './../../component/Header'
 import Modal from '../../component/Modal';
 
-const AddUser = () => {
+const AddUser = (props) => {
 
-    const navigate = useNavigate();
-    const { state } = useLocation();
     const userApi = useUserApi();
     const { getCredentials, tokenValidate, theme } = useAuth();
     const [msgResult, setMsgResult] = useState('');
@@ -51,7 +47,7 @@ const AddUser = () => {
             camposVazios += "Email, ";
             test = true;
         };
-        if (newUser.password === "" && state == null) {
+        if (newUser.password === "" && (props.user == null)) {
             camposVazios += "Senha, ";
             test = true;
         };
@@ -61,7 +57,7 @@ const AddUser = () => {
         } else {
           let result = null;
           
-          if (state == null){
+          if (props.user == null){
             result = await userApi.addUser(newUser, getCredentials().access_token);
           } else {
             result = await userApi.updateUser(newUser, getCredentials().access_token);
@@ -70,7 +66,7 @@ const AddUser = () => {
           await tokenValidate();
       
           if (result?.status ===201 && result?.data?.userID != null && result?.data?.username !== "" && result?.data?.email !== "") {
-            if (state == null) {
+            if (props.user == null) {
               limparForm();
               console.log("Usuário Salvo!")
               setMsgResult("Usuário Salvo!")
@@ -99,30 +95,28 @@ const AddUser = () => {
         };
     };
     
-  const limparForm = () => {
-    if (state != null) {
-      setNewUser({firstname:"",lastname:"", username: state.username, email:"", password:""})
-    } else {
-      setNewUser({firstname:"",lastname:"", username: "", email:"", password:""})
-    }
-    setMsgResult("");
-  };
-
-  useEffect (() => {
-    if(state != null) {
-      setNewUser({userID: state.userID, firstname: state.firstname, lastname:state.lastname, username: state.username, email: state.email, password: ""});
+    const limparForm = () => {
+      if (props.user != null) {
+        setNewUser({firstname:"",lastname:"", username: props.user.username, email:"", password:""})
+      } else {
+        setNewUser({firstname:"",lastname:"", username: "", email:"", password:""})
+      }
+      setMsgResult("");
     };
-  },[state]);
+
+    useEffect (() => {
+      if (props.user != null) {
+        setNewUser({userID: props.user.userID, firstname: props.user.firstname, lastname:props.user.lastname, username: props.user.username, email: props.user.email, password: ""});
+      } else if (props.user == null) {
+        setNewUser({firstname:"",lastname:"", username: "", email:"", password:""});
+      };
+    },[props.user]);
 
   return (
     <>
-      <Header />
-      {showResult && <Modal message={msgModal} />}
+      {showResult && <Modal> <p>{msgModal}</p> </Modal>}
       <div className='addUser' data-theme={theme}>
-        <h1>{state!= null?"Alterar Cadastro de "+state.username:"Cadastro de Novo Usuário"}</h1>
-        <div className='addUser_button'>
-          <button onClick={() => navigate('/logedPage')}>Voltar</button>
-        </div>
+        <h1>{(props.user != null)?"Alterar Cadastro de "+newUser.username:"Cadastro de Novo Usuário"}</h1>
         <div className='addUser_form'>
         {showLoading && <Loading style={{position:'absolute'}} /> }
           <h3>Preencha o formulário de cadastro</h3><br/>
@@ -135,9 +129,9 @@ const AddUser = () => {
             <span>Email: </span>
             <input type='email' name='email' value={newUser.email} onChange={handleForm} placeholder='Digite seu e-mail válido.' />
             <span>Usuário: </span>
-            <input type='text' name='username' disabled={state != null?true:false} value={newUser.username} onChange={handleForm} placeholder='Digite seu nome de usuário.' />
+            <input type='text' name='username' disabled={(props.user != null)?true:false} value={newUser.username} onChange={handleForm} placeholder='Digite seu nome de usuário.' />
             <span>Senha: </span>
-            {state != null ?
+            {(props.user != null) ?
               <button style={{backgroundColor:'var(--background-button)', border:'none', borderRadius:5, height:24, fontSize:14, color:'var(--text-primary)'}}
                   type='button' onClick={alterarSenha}>Alterar senha</button> : <input type='password' name='password' value={newUser.password} onChange={handleForm} placeholder='Digite sua senha para acessar o sistema.' />
             }

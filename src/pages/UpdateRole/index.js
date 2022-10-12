@@ -1,17 +1,13 @@
 import React, { useEffect, useState, useRef } from 'react';
-import Header from './../../component/Header';
 import useAuth from '../../service/userAuth';
 import { useUserApi } from '../../service/userApi';
-import { useLocation, useNavigate } from 'react-router-dom';
 import { MdDeleteOutline, MdAdd } from "react-icons/md";
 import './updateRole.css';
 
-function UpdateRole() {
+function UpdateRole(props) {
 
   const userApi = useUserApi();
   const { theme, getCredentials } = useAuth();
-  const { state } = useLocation();
-  const navigate = useNavigate(); 
   const [user, setUser] = useState([]);
   const [roles, setRoles] = useState([]);
   const [selectedRoles, setSelectedRoles ] = useState([]);
@@ -43,10 +39,10 @@ function UpdateRole() {
   const addRoleToUser = async () => {
     let result = "";
     for(let i=0; i<selectedRoles.length; i++) {
-      result = await userApi.addRoleToUser(state.username, selectedRoles[i], getCredentials().access_token);
+      result = await userApi.addRoleToUser(props.user.username, selectedRoles[i], getCredentials().access_token);
     }
     if (result.status === 200) {
-      let updateUser = await userApi.getUser(state.username, getCredentials().access_token);
+      let updateUser = await userApi.getUser(props.user.username, getCredentials().access_token);
       setUser(updateUser.data);
       setSelectedRoles([]);
       selectRef.current[0].selected = true;
@@ -55,24 +51,28 @@ function UpdateRole() {
   };
 
   const removeRoleToUser = async (roleName) => {
-    let result = await userApi.removeRoleToUser(state.username, roleName, getCredentials().access_token);
+    let result = await userApi.removeRoleToUser(props.user.username, roleName, getCredentials().access_token);
 
     if (result.status === 200) {
-      let updateUser = await userApi.getUser(state.username, getCredentials().access_token)
+      let updateUser = await userApi.getUser(props.user.username, getCredentials().access_token)
       setUser(updateUser.data);
       await listRoles();
     };
   };
 
-  const getUSer = async () => {
-    let getUSer = await userApi.getUser(state.username, getCredentials().access_token);
-    if (getUSer.status === 200) {
-      setUser(getUSer.data);
+  const getUser = async () => {
+    let getUser = null;
+    if (props.user != null) {
+      getUser = await userApi.getUser(props.user.username, getCredentials().access_token);
+    }
+
+    if (getUser.status === 200) {
+      setUser(getUser.data);
     }
   };
 
   loadRoles.current = async () => await listRoles();
-  loadGetUser.current = async () => await getUSer();
+  loadGetUser.current = async () => await getUser();
 
   useEffect (() => {
     if (user.length === 0) {
@@ -84,12 +84,8 @@ function UpdateRole() {
 
   return (
     <>
-      <Header />
       <div className='updateRole' data-theme={theme}>
         <h1>Gerenciamento de Perfil de Acesso</h1>
-        <div className='updateRole_btn'>
-          <button onClick={() => navigate('/userManage')}>Voltar</button>
-        </div>
         <div className='updateRole_box'>
           <div style={{display:'flex', flexDirection:'column', justifyContent:'center', alignItems:'center'}}>
             <h3>Permissões de: <u>{user?.firstname}</u></h3><br />

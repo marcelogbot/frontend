@@ -4,7 +4,7 @@
     position: relative;
     justify-content: space-around;
     background-color: #fff;
-    height: 50px;
+    height: 6.8vh;
     box-shadow: 0px 0px 5px 0px var(--border);
     background-color: var(--background-header);
     color: var(--text-primary);
@@ -24,4 +24,16 @@
     justify-content: right;
     align-items: center;
     width: 45%;
+}
+
+.header-right button {
+    border: none;
+    background-color: transparent;
+    color: var(--text-primary);
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.header-right button:hover {
+    text-decoration: underline;
 }

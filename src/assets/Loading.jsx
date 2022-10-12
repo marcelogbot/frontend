@@ -19,13 +19,15 @@ export default class Loading extends React.Component {
    
       return (
         <>
-          <div style={{display:'flex', position:"absolute",
-                                      height:"93.2vh",
-                                      width:"100%",
-                                      backgroundColor:"#444444",
-                                      opacity:0.7,
-                                      zIndex:0 }}/>
-          <div style={{display:'flex', position:"absolute", width:"100%", justifyContent:'center', alignItems:'center'}}>
+          <div style={{display:'flex',
+                      position:"absolute",
+                      height:"80vh",
+                      width:"97.7vw",
+                      backgroundColor:"#444444",
+                      opacity:0.7,
+                      zIndex:0 }}/>
+
+          <div style={{display:'flex', position:"absolute", width:"97.7vw", justifyContent:'center', alignItems:'center'}}>
             <Lottie options={defaultOptions}
                 height={200}
                 width={200}
